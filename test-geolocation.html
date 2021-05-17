@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Sample Script for Upwork</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <body>
+        <h1>Page made by David Santana for Upwork job application.</h1>
+        <h3>Ah, yes... I can see you are in <span id="result"></span>.</h3>
+
+        <script>
+           
+           fetch('https://extreme-ip-lookup.com/json/')
+            .then( res => res.json())
+            .then(response => {
+                document.getElementById("result").innerHTML = response.country;
+            })
+            .catch((data, status) => {
+                document.getElementById("result").innerHTML = "Request failed. This requires geolocation to be ON! However, a placeholder may be put instead of this line.";
+            })
+
+        </script>
+
+    </body>
+
+</html>
