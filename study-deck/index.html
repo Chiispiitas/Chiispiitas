@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4efe5">
+  <meta name="description" content="Interactive study quizzes with adaptive reinforcement for incorrect answers.">
+  <title>Study Deck · Interactive Revision</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-noise" aria-hidden="true"></div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <button class="brand" id="brandButton" type="button" aria-label="Go to subjects">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Study Deck</span>
+    </button>
+    <div class="header-actions">
+      <button class="icon-button" id="soundButton" type="button" aria-label="Toggle sound" title="Toggle sound">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9H5Zm12.5 3a3.5 3.5 0 0 0-2-3.15v6.3A3.5 3.5 0 0 0 17.5 12Z"/></svg>
+      </button>
+      <button class="avatar-button" id="resetButton" type="button" title="Reset progress" aria-label="Reset progress">DS</button>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1">
+    <section class="view home-view is-active" id="homeView" aria-labelledby="homeTitle">
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span></span> Personal study workspace</p>
+          <h1 id="homeTitle">Study with<br><em>intention.</em></h1>
+          <p class="hero-text">Choose a subject, practise by topic, and revisit every missed answer until it sticks.</p>
+          <div class="hero-actions">
+            <button class="primary-button" id="quickStartButton" type="button">
+              Start a mixed quiz
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+            <button class="text-button" id="reviewButton" type="button" disabled>Review mistakes <span id="reviewCount">0</span></button>
+          </div>
+        </div>
+
+        <aside class="progress-card reveal delay-one" aria-label="Study progress">
+          <div class="progress-card-top">
+            <span>Overall mastery</span>
+            <span id="masteryPercent">0%</span>
+          </div>
+          <div class="mastery-ring" id="masteryRing" style="--value:0">
+            <div>
+              <strong id="masteredCount">0</strong>
+              <span>mastered</span>
+            </div>
+          </div>
+          <div class="mini-stats">
+            <div><strong id="attemptedCount">0</strong><span>attempted</span></div>
+            <div><strong id="bestStreak">0</strong><span>best streak</span></div>
+          </div>
+          <p class="progress-note" id="progressNote">Your progress is stored on this device.</p>
+        </aside>
+      </div>
+
+      <section class="subjects-section reveal delay-two" aria-labelledby="subjectsTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span></span> Question bank</p>
+            <h2 id="subjectsTitle">Choose a subject</h2>
+          </div>
+          <p><strong id="totalQuestionCount">440</strong> questions across <strong>5</strong> subjects</p>
+        </div>
+        <div class="subject-grid" id="subjectGrid"></div>
+      </section>
+    </section>
+
+    <section class="view quiz-view" id="quizView" aria-labelledby="questionText">
+      <div class="quiz-shell">
+        <div class="quiz-toolbar">
+          <button class="back-button" id="quitQuizButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            Subjects
+          </button>
+          <div class="quiz-meta">
+            <span id="quizSubject">Subject</span>
+            <strong id="quizCounter">1 / 10</strong>
+          </div>
+          <div class="streak-pill" title="Current correct-answer streak">
+            <span aria-hidden="true">↗</span><strong id="currentStreak">0</strong>
+          </div>
+        </div>
+        <div class="quiz-progress" aria-label="Quiz progress"><i id="quizProgressBar"></i></div>
+
+        <article class="question-card" id="questionCard">
+          <div class="question-topline">
+            <span class="topic-label" id="topicLabel"></span>
+            <span class="reinforcement-label" id="reinforcementLabel">Reinforcement</span>
+          </div>
+          <p class="question-number" id="questionNumber">Question 1</p>
+          <h2 id="questionText"></h2>
+          <div class="answer-grid" id="answerGrid" role="group" aria-labelledby="questionText"></div>
+          <div class="feedback-panel" id="feedbackPanel" aria-live="polite">
+            <div class="feedback-icon" id="feedbackIcon"></div>
+            <div>
+              <strong id="feedbackTitle"></strong>
+              <p id="feedbackText"></p>
+            </div>
+          </div>
+          <div class="question-footer">
+            <p><kbd>1</kbd>–<kbd>4</kbd> to answer <span>·</span> <kbd>Enter</kbd> to continue</p>
+            <button class="primary-button next-button" id="nextButton" type="button" disabled>
+              Continue
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view results-view" id="resultsView" aria-labelledby="resultsTitle">
+      <div class="results-card">
+        <div class="results-stamp" id="resultsStamp"><span></span></div>
+        <p class="eyebrow centered"><span></span> Session complete <span></span></p>
+        <h1 id="resultsTitle">Good work.</h1>
+        <p class="results-summary" id="resultsSummary"></p>
+        <div class="result-score-row">
+          <div class="result-score"><strong id="resultPercent">0%</strong><span>first-try score</span></div>
+          <div class="result-stat"><strong id="resultCorrect">0/0</strong><span>correct</span></div>
+          <div class="result-stat"><strong id="resultReinforced">0</strong><span>reinforced</span></div>
+        </div>
+        <div class="results-breakdown" id="resultsBreakdown"></div>
+        <div class="results-actions">
+          <button class="primary-button" id="retryMistakesButton" type="button">Practise mistakes</button>
+          <button class="secondary-button" id="backHomeButton" type="button">Back to subjects</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="setup-dialog" id="setupDialog">
+    <form method="dialog" id="setupForm">
+      <div class="dialog-handle" aria-hidden="true"></div>
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow"><span></span> New session</p>
+          <h2 id="setupSubjectName">Subject</h2>
+        </div>
+        <button class="close-button" value="cancel" type="submit" aria-label="Close">×</button>
+      </div>
+      <label class="field-label" for="topicSelect">Topic</label>
+      <div class="select-wrap">
+        <select id="topicSelect" name="topic"></select>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+      </div>
+
+      <fieldset>
+        <legend>Session length</legend>
+        <div class="segmented" id="lengthOptions">
+          <label><input type="radio" name="length" value="10" checked><span>10</span></label>
+          <label><input type="radio" name="length" value="20"><span>20</span></label>
+          <label><input type="radio" name="length" value="all"><span>All</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Study mode</legend>
+        <div class="mode-grid">
+          <label class="mode-option">
+            <input type="radio" name="mode" value="learn" checked>
+            <span><i>↻</i><strong>Learn</strong><small>Instant feedback and spaced retries</small></span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="mode" value="exam">
+            <span><i>◎</i><strong>Exam</strong><small>Feedback appears at the end</small></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="primary-button dialog-start" id="startQuizButton" value="default" type="submit">Begin session</button>
+    </form>
+  </dialog>
+
+  <dialog class="confirm-dialog" id="confirmDialog">
+    <form method="dialog">
+      <div class="confirm-icon">!</div>
+      <h2 id="confirmTitle">Leave this session?</h2>
+      <p id="confirmText">Your current quiz progress will be lost.</p>
+      <div>
+        <button class="secondary-button" value="cancel">Stay here</button>
+        <button class="danger-button" id="confirmActionButton" value="confirm">Leave session</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
