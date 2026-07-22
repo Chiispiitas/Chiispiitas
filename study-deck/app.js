@@ -8,7 +8,8 @@
     english: { accent: '#db654d', soft: '#f6ddd6', mark: 'EN' },
     quantitative: { accent: '#365c82', soft: '#dfe8f0', mark: 'QR' },
     catedra: { accent: '#a16a24', soft: '#f1e5cf', mark: 'CI' },
-    psychology: { accent: '#74579a', soft: '#e9e0f1', mark: 'PS' }
+    psychology: { accent: '#74579a', soft: '#e9e0f1', mark: 'PS' },
+    entrepreneurship: { accent: '#92731f', soft: '#f2e9c9', mark: 'EG' }
   };
 
   const $ = (id) => document.getElementById(id);
@@ -19,7 +20,7 @@
     quickStartButton: $('quickStartButton'), reviewButton: $('reviewButton'), reviewCount: $('reviewCount'),
     masteryPercent: $('masteryPercent'), masteryRing: $('masteryRing'), masteredCount: $('masteredCount'),
     attemptedCount: $('attemptedCount'), bestStreak: $('bestStreak'), progressNote: $('progressNote'),
-    totalQuestionCount: $('totalQuestionCount'), brandButton: $('brandButton'), resetButton: $('resetButton'), soundButton: $('soundButton'),
+    totalQuestionCount: $('totalQuestionCount'), subjectCount: $('subjectCount'), brandButton: $('brandButton'), resetButton: $('resetButton'), soundButton: $('soundButton'),
     quitQuizButton: $('quitQuizButton'), quizSubject: $('quizSubject'), quizCounter: $('quizCounter'), currentStreak: $('currentStreak'), quizProgressBar: $('quizProgressBar'),
     questionCard: $('questionCard'), topicLabel: $('topicLabel'), reinforcementLabel: $('reinforcementLabel'), questionNumber: $('questionNumber'), questionText: $('questionText'), answerGrid: $('answerGrid'),
     feedbackPanel: $('feedbackPanel'), feedbackIcon: $('feedbackIcon'), feedbackTitle: $('feedbackTitle'), feedbackText: $('feedbackText'), nextButton: $('nextButton'),
@@ -96,6 +97,7 @@
     els.reviewCount.textContent = weak.length;
     els.reviewButton.disabled = weak.length === 0;
     els.totalQuestionCount.textContent = DATA.questions.length;
+    if (els.subjectCount) els.subjectCount.textContent = DATA.subjects.length;
     els.progressNote.textContent = attempted === 0
       ? 'Your progress is stored on this device.'
       : mastered < 10 ? 'Keep going — mastery builds through retrieval.'

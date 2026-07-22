@@ -4,7 +4,7 @@ A dependency-free, responsive HTML/CSS/JavaScript study application generated fr
 
 ## Features
 
-- Five subjects and per-topic practice
+- Six subjects and per-topic practice
 - 10-question, 20-question, or full-topic sessions
 - Learn mode with immediate feedback
 - Exam mode with delayed results
@@ -26,3 +26,10 @@ Upload this folder as `study-deck/` inside the `Chiispiitas/Chiispiitas` reposit
 Expected address:
 
 `https://chiispiitas.github.io/Chiispiitas/study-deck/`
+
+## Emprendimiento y Gestión
+
+This subject was added from `SIMULADOR DE EMPRENDIMIENTO.pdf` and `CUESTIONARIO DE EMPRENDIMIENTO.pdf`.
+
+- Exact multiple-choice options are preserved for simulator items.
+- The questionnaire supplied question-answer pairs without distractors. For those items, the incorrect choices are drawn from other answers in the same source collection so the original correct answer remains unchanged.

@@ -114,7 +114,6 @@ main { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding-bottom: 70
 .section-heading > p { color: var(--ink-soft); font-size: 14px; }
 .subject-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
 .subject-card { grid-column: span 2; min-height: 250px; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 22px; background: rgba(255,253,248,.54); cursor: pointer; text-align: left; position: relative; overflow: hidden; transition: .38s var(--ease); display: flex; flex-direction: column; }
-.subject-card:nth-child(4), .subject-card:nth-child(5) { grid-column: span 3; }
 .subject-card::after { content: ""; position: absolute; width: 150px; height: 150px; border-radius: 50%; right: -68px; top: -70px; background: var(--accent-soft); transition: transform .5s var(--ease); }
 .subject-card:hover { transform: translateY(-7px); background: var(--white); box-shadow: 0 20px 50px rgba(42,39,31,.11); }
 .subject-card:hover::after { transform: scale(1.28); }
